@@ -5,6 +5,10 @@
  */
 package Application;
 
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Towar;
+
 /**
  *
  * @author lreplin
@@ -14,8 +18,15 @@ public class ViewWarehouse extends javax.swing.JFrame {
     /**
      * Creates new form ViewWarehouse
      */
-    public ViewWarehouse() {
+    DefaultTableModel model;
+    NewTransaction nt;
+    
+    public ViewWarehouse(NewTransaction nt) {
         initComponents();
+        this.nt = nt;
+        this.setLocationRelativeTo(null);
+        model = (DefaultTableModel) itemsTable.getModel();
+        showExampleData();
     }
 
     /**
@@ -27,24 +38,152 @@ public class ViewWarehouse extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        itemsTable = new javax.swing.JTable();
+        addItemButton = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Podgląd magazynu");
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Obsługa magazynu", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP));
+
+        itemsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nazwa", "Numer katalogowy", "Kod EAN", "Cena", "Stan magazynowy"
+            }
+        ));
+        jScrollPane1.setViewportView(itemsTable);
+
+        addItemButton.setText("Dodaj zaznaczony towar");
+        addItemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addItemButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 735, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(addItemButton)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(addItemButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void addItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemButtonActionPerformed
+        if (itemsTable.getSelectedRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "Aby coś dodać, musisz to zaznaczyć!", "Ostrzeżenie", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (itemsTable.getSelectedRow() != -1) {
+                int row = itemsTable.getSelectedRow();
+                if (Integer.parseInt(model.getValueAt(row, 4).toString()) == 0) {
+                    JOptionPane.showMessageDialog(null, "Brak możliwości dodania towaru, którego nie ma!", "Błąd", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                String aaa = String.valueOf(Integer.parseInt(model.getValueAt(row, 4).toString())-1);
+                model.setValueAt(aaa, row, 4);
+                nt.addToTable(new Towar(model.getValueAt(row, 0).toString(), model.getValueAt(row, 1).toString(), model.getValueAt(row, 2).toString(), Double.parseDouble(model.getValueAt(row, 3).toString())));
+                this.setVisible(false);
+        }
+    }//GEN-LAST:event_addItemButtonActionPerformed
+    
+    private void showExampleData() {
+        model.setRowCount(0);
+        Object[] row = new Object[7];
+            row[0] = "Sofa Monika Czerwona";
+            row[1] = "SMC10112CZE";
+            row[2] = "5904125148521";
+            row[3] = "3499.99";
+            row[4] = "16";
+            model.addRow(row);
+            row[0] = "Krzesło Janusz Jasny Dąb";
+            row[1] = "KJ1111A5JD";
+            row[2] = "5904125521821";
+            row[3] = "120.00";
+            row[4] = "0";
+            model.addRow(row);
+            row[0] = "Stół okrągły fi100 Mahoń";
+            row[1] = "AJ87NH88";
+            row[2] = "5904125115247";
+            row[3] = "554.60";
+            row[4] = "3";
+            model.addRow(row);
+            row[0] = "Pólka szklana wisząca 100cm";
+            row[1] = "PSW100";
+            row[2] = "5904100018521";
+            row[3] = "131.99";
+            row[4] = "0";
+            model.addRow(row);
+            row[0] = "Szafa Anna 200cm Buk";
+            row[1] = "SA200B";
+            row[2] = "5904785148521";
+            row[3] = "499.00";
+            row[4] = "2";
+            model.addRow(row);
+            row[0] = "Fotel biurowy Alex Czarny";
+            row[1] = "ASFALEXB";
+            row[2] = "5987125148521";
+            row[3] = "189.00";
+            row[4] = "8";
+            model.addRow(row);
+            row[0] = "Biurko 120x80 Brzoza";
+            row[1] = "B12080BBA";
+            row[2] = "5904124157741";
+            row[3] = "219.00";
+            row[4] = "4";
+            model.addRow(row);
+            row[0] = "Materac 180x220 20 Sam";
+            row[1] = "M18022020S";
+            row[2] = "5904125008521";
+            row[3] = "1100.00";
+            row[4] = "6";
+            model.addRow(row);
+
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addItemButton;
+    private javax.swing.JTable itemsTable;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
