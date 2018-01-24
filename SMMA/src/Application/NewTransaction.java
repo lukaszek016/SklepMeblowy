@@ -30,6 +30,7 @@ public class NewTransaction extends javax.swing.JFrame {
         documentType = 0;
         setViewForReceipt();
         model = (DefaultTableModel) elementsTable.getModel();
+        viewwh = new ViewWarehouse(this);
     }
 
     /**
@@ -183,7 +184,7 @@ public class NewTransaction extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addNewItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewItemActionPerformed
-        viewwh = new ViewWarehouse(this);
+        
         viewwh.setVisible(true);
     }//GEN-LAST:event_addNewItemActionPerformed
 
