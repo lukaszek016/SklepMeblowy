@@ -5,6 +5,12 @@
  */
 package Application;
 
+import java.awt.Color;
+import static java.awt.PageAttributes.ColorType.COLOR;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Towar;
+
 /**
  *
  * @author lreplin
@@ -14,9 +20,16 @@ public class NewTransaction extends javax.swing.JFrame {
     /**
      * Creates new form NewTransaction
      */
+    short documentType;
+    DefaultTableModel model;
+    ViewWarehouse viewwh;
+    
     public NewTransaction() {
         initComponents();
         this.setLocationRelativeTo(null);
+        documentType = 0;
+        setViewForReceipt();
+        model = (DefaultTableModel) elementsTable.getModel();
     }
 
     /**
@@ -30,25 +43,29 @@ public class NewTransaction extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        elementsTable = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        addNewItem = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
+        typeLabel = new javax.swing.JLabel();
+        receiptLabel = new javax.swing.JLabel();
+        invoiceLabel = new javax.swing.JLabel();
+        changeDocTypeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Obsługa sprzedaży");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Pozycje transakcji", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        elementsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nazwa", "Numer katalogowy", "EAN", "Cena netto", "Cena brutto"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(elementsTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -67,6 +84,80 @@ public class NewTransaction extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Obsługa", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP));
+
+        addNewItem.setText("Dodaj nową pozycję");
+        addNewItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addNewItemActionPerformed(evt);
+            }
+        });
+
+        cancelButton.setText("Anuluj");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
+        typeLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        typeLabel.setText("Typ dokumentu sprzedaży");
+        typeLabel.setToolTipText("");
+
+        receiptLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        receiptLabel.setText("Paragon");
+        receiptLabel.setToolTipText("");
+
+        invoiceLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        invoiceLabel.setForeground(new java.awt.Color(204, 204, 204));
+        invoiceLabel.setText("Faktura VAT");
+        invoiceLabel.setToolTipText("");
+
+        changeDocTypeButton.setText("Zmień");
+        changeDocTypeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeDocTypeButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(addNewItem)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cancelButton))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(typeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(receiptLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(invoiceLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(changeDocTypeButton)
+                        .addGap(0, 93, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(typeLabel)
+                    .addComponent(receiptLabel)
+                    .addComponent(invoiceLabel)
+                    .addComponent(changeDocTypeButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addNewItem)
+                    .addComponent(cancelButton))
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -74,24 +165,93 @@ public class NewTransaction extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(509, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void addNewItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewItemActionPerformed
+        viewwh = new ViewWarehouse(this);
+        viewwh.setVisible(true);
+    }//GEN-LAST:event_addNewItemActionPerformed
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        if (viewwh != null) {
+            viewwh.dispose();
+        }
+        this.dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void changeDocTypeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeDocTypeButtonActionPerformed
+        switch (documentType) {
+            case 0:
+                receiptLabel.setForeground(Color.GRAY);
+                invoiceLabel.setForeground(Color.BLACK);
+                documentType = 1;
+                setViewForInvoice();
+                break;
+            case 1:
+                invoiceLabel.setForeground(Color.GRAY);
+                receiptLabel.setForeground(Color.BLACK);
+                documentType = 0;
+                setViewForReceipt();
+                break;
+            default:
+                break;
+                
+        }
+    }//GEN-LAST:event_changeDocTypeButtonActionPerformed
+
+    public void addToTable(Towar towar) {
+        model.addRow(new Object[]{towar.getNazwa(), towar.getNumerKatalogowy(), towar.getKodEan(), towar.getCenaNetto(), towar.getCenaBrutto()});
+    }
+    
+//    public void removeFromTable() {
+//        if (elementsTable.getSelectedRowCount() == 0) {
+//            JOptionPane.showMessageDialog(null, "Aby coś usunąć, musisz to zaznaczyć!", "Ostrzeżenie", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        }
+//        Object options[] = {"Tak", "Nie"};
+//        int confirm = JOptionPane.showOptionDialog(null, "Czy na pewno chcesz usunąć tą pozycję?", "Potwierdzenie", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+//        if (confirm == JOptionPane.YES_OPTION) {
+//            if (elementsTable.getSelectedRow() != -1) {
+//                int row = elementsTable.getSelectedRow();
+//                model.removeRow(row);
+//            }
+//        }
+//    }
+    
+    public void setViewForReceipt() {
+        
+    }
+    
+    public void setViewForInvoice() {
+        
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addNewItem;
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JButton changeDocTypeButton;
+    private javax.swing.JTable elementsTable;
+    private javax.swing.JLabel invoiceLabel;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel receiptLabel;
+    private javax.swing.JLabel typeLabel;
     // End of variables declaration//GEN-END:variables
 }
