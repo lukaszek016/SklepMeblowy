@@ -5,6 +5,8 @@
  */
 package model;
 
+import Application.Functions;
+
 /**
  *
  * @author lreplin
@@ -22,7 +24,7 @@ public class Towar {
         this.numerKatalogowy = numerKatalogowy;
         this.kodEan = kodEan;
         this.cenaNetto = cenaNetto;
-        this.cenaBrutto = cenaNetto*1.23;
+        this.cenaBrutto = Functions.round(cenaNetto*1.23, 2);
     }
     
     public Towar() {
