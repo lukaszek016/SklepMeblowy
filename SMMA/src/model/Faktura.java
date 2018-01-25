@@ -5,6 +5,7 @@
  */
 package model;
 
+import Application.Functions;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Faktura implements DokumentSprzedazy {
         this.klient = klient;
         this.pozycje = pozycje;
         this.sumaNetto = sumaNetto;
-        this.sumaBrutto = sumaNetto*1.23;
+        this.sumaBrutto = Functions.round(sumaNetto*1.23, 2);
         this.dataWystawienia = dataWystawienia;
     }
 
